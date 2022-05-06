@@ -35,3 +35,6 @@ Project-Name/
 
 ## Acknowledgement
 This project-template is inspired by the project [Pytorch-Lightning-Template](https://github.com/ashleve/lightning-hydra-template) and [Pytorch-elastic-examples](https://github.com/pytorch/elastic/tree/master/examples).
+
+## License
+This project is licensed under [MIT License](LICENSE).
