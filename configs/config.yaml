@@ -1,0 +1,19 @@
+defaults:
+  - _self_
+  - log_dir: default.yaml
+  - logger: tensorboard.yaml
+  - model: comformer.yaml
+  - dataset: dataset.yaml
+  - data_loader: default.yaml
+
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+work_dir: ${hydra:runtime.cwd}
+data_dir: ${work_dir}/data/
+
+checkpoint_file: null
+
+ex: null
+rand_seed: null
+max_epochs: 1

@@ -1,0 +1,3 @@
+_target_: torch.utils.tensorboard.writer.SummaryWriter
+
+log_dir: ${work_dir}/tensorboard/ # work_dir is already defined in config.yaml 
