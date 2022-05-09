@@ -1,8 +1,6 @@
 dataset:
-  _target_: torchvision.datasets.MNIST
+  _target_: src.datasets.ExampleMNIST.ExampleMNIST
 
   data_dir: ${data_dir} # data_dir is specified in config.yaml
   download: True
   train: True
-
-train_val_split: [60_000, 10_000]

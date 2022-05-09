@@ -13,5 +13,5 @@ class ExampleMNIST(dset.MNIST):
             [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
         )
         super().__init__(
-            root=data_dir, train=train, transform=self.transform, download=download
+            root=data_dir, train=train, transform=self.transforms, download=download
         )

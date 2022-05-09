@@ -33,7 +33,6 @@ def train(config: DictConfig, local_rank: int) -> None:
 
     # Initiate dataloaders
     train_loader, valid_loader = init_data_loader(config.dataset, config.data_loader)
-
     # Initiate a tensorboard (only zero rank)
     writer = hydra.utils.instantiate(config.logger) if local_rank == 0 else None
 
@@ -116,13 +115,11 @@ def init_model(config: DictConfig, local_rank: int) -> Tuple[Any, Any, Any]:
 def init_data_loader(
     config_dataset: DictConfig, config_loader: DictConfig
 ) -> Tuple[DataLoader, DataLoader]:
-    LOG.info(f"{config_dataset.dataset}")
-    assert 0
     dataset = hydra.utils.instantiate(config_dataset.dataset)
 
     train_dataset, valid_dataset = torch.utils.data.random_split(
         dataset,
-        config_dataset.train_val_split,
+        [len(dataset) - 1000, 1000],
         generator=torch.Generator().manual_seed(42),
     )
     train_sampler = DistributedSampler(train_dataset, shuffle=True, drop_last=True)

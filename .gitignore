@@ -195,7 +195,8 @@ cython_debug/
 poetry.lock
 pyproject.toml
 tensorboard
+data
+logs/*
 
-
-# dev 
+# dev
 BaseTrainer.py
