@@ -2,7 +2,7 @@
 This project template is for deep-learning researchers who want to use multi-gpu with pytorch Distributed Data Parallel(DDP).
 
 ## Pre-requsites
-This repository ensure that works in python 3.8 or later installed all `requirements.txt` dependencies. Additionally, this project-template uses configuration manager framework, [Hydra](https://hydra.cc/). If you are not familier to Hydra, please check this [Hydra tutorial docs](https://hydra.cc/docs/intro/).
+This repository ensure that works in python 3.8 or later installed all `requirements.txt` dependencies. Additionally, this project-template uses configuration manager framework, [Hydra](https://hydra.cc/). If you are not familier with Hydra, please check this [Hydra tutorial docs](https://hydra.cc/docs/intro/).
 
 ```bash
 pip install -r requirements.txt
@@ -40,7 +40,7 @@ Please set the develop environment python 3.8 or later version and install all d
 pip install -r requirements.txt
 ```
 
-This project use multi-gpu by using elastic launch ([torchrun](https://pytorch.org/docs/stable/elastic/run.html)), if not familiar to Torchrun, please check this [documenation](https://pytorch.org/docs/stable/distributed.elastic.html).
+This project use multi-gpu by using elastic launch ([torchrun](https://pytorch.org/docs/stable/elastic/run.html)), if not familiar with Torchrun, please check this [documenation](https://pytorch.org/docs/stable/distributed.elastic.html).
 
 ```bash
 torchrun --nproc_per_node <num_gpu> run.py
