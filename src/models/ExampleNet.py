@@ -13,16 +13,11 @@ class ExampleNet(nn.Module):
         self.model = nn.Sequential(
             nn.Conv2d(1, cv1_ch, 4, 2, 1),
             nn.ReLU(),
-            nn.Conv2d(32, cv2_ch, 4, 2, 1),
+            nn.Conv2d(cv1_ch, cv2_ch, 4, 2, 1),
             nn.ReLU(),
             nn.Flatten(),
-            nn.Linear(1, 7 * 7 * 64, output_size),
+            nn.Linear(7 * 7 * cv2_ch, output_size),
         )
 
     def forward(self, x):
-        batch_size, channels, width, height = x.size()
-
-        # (batch, 1, width, height) -> (batch, 1*width*height)
-        x = x.view(batch_size, -1)
-
         return self.model(x)

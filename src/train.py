@@ -42,11 +42,11 @@ def train(config: DictConfig, local_rank: int) -> None:
     for epoch in range(config.max_epochs):
         train_loader.batch_sampler.sampler.set_epoch(epoch)
         for batch in tqdm(train_loader):
-            image, domain_tag = get_batch(batch, local_rank)
+            image, label = get_batch(batch, local_rank)
             # Compute output
             with autocast():
-                outputs = model(image, domain_tag)
-                loss = criterion(outputs, image)
+                outputs = model(image)
+                loss = criterion(outputs, label)
 
             # Compute gradient & optimizer step
             optimizer.zero_grad()
@@ -56,11 +56,11 @@ def train(config: DictConfig, local_rank: int) -> None:
         model.eval()
         with torch.no_grad():
             for data in tqdm(valid_loader):
-                image, domain_tag = get_batch(data, local_rank)
+                image, label = get_batch(data, local_rank)
 
                 # Compute output
-                outputs = model(image, domain_tag)
-                loss = criterion(outputs, image)
+                outputs = model(image)
+                loss = criterion(outputs, label)
 
         gc.collect()
         torch.cuda.empty_cache()
@@ -77,8 +77,8 @@ def train(config: DictConfig, local_rank: int) -> None:
 def get_batch(
     data: Tuple[torch.Tensor, torch.Tensor, torch.Tensor], local_rank: int
 ) -> Tuple[torch.Tensor, torch.Tensor]:
-    image, _, domain_tag = data
-    return image.to(local_rank), domain_tag.to(local_rank)
+    image, label = data
+    return image.to(local_rank), label.to(local_rank)
 
 
 def load_model(
