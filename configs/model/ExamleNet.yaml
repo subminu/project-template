@@ -1,0 +1,10 @@
+architecture:
+  _target_: src.models.ExampleNet.ExampleNet
+
+  cv1_ch: 32
+  cv2_ch: 64
+  output_size: 10
+
+optimizer:
+  lr: 1e-4
+  weight_decay: 0.99

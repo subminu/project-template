@@ -102,7 +102,7 @@ def init_model(config: DictConfig, local_rank: int) -> Tuple[Any, Any, Any]:
     model = DDP(model, device_ids=[local_rank], find_unused_parameters=True)
 
     # criterion
-    criterion = torch.nn.L1Loss()
+    criterion = torch.nn.CrossEntropyLoss()
 
     # optimizer
     optimizer = torch.optim.AdamW(
@@ -116,11 +116,13 @@ def init_model(config: DictConfig, local_rank: int) -> Tuple[Any, Any, Any]:
 def init_data_loader(
     config_dataset: DictConfig, config_loader: DictConfig
 ) -> Tuple[DataLoader, DataLoader]:
-    dataset = hydra.utils.instantiate(config_dataset)
+    LOG.info(f"{config_dataset.dataset}")
+    assert 0
+    dataset = hydra.utils.instantiate(config_dataset.dataset)
 
     train_dataset, valid_dataset = torch.utils.data.random_split(
         dataset,
-        [len(dataset) - 1000, 1000],
+        config_dataset.train_val_split,
         generator=torch.Generator().manual_seed(42),
     )
     train_sampler = DistributedSampler(train_dataset, shuffle=True, drop_last=True)

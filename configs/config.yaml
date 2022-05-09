@@ -1,9 +1,9 @@
 defaults:
   - _self_
   - log_dir: default.yaml
-  - logger: tensorboard.yaml
-  - model: comformer.yaml
-  - dataset: dataset.yaml
+  - logger: Tensorboard.yaml
+  - model: ExamleNet.yaml
+  - dataset: MNIST.yaml
   - data_loader: default.yaml
 
   - override hydra/job_logging: colorlog
