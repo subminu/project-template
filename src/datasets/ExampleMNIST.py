@@ -10,7 +10,11 @@ class ExampleMNIST(dset.MNIST):
         train: bool,
     ):
         self.transforms = transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+            [
+                transforms.ToTensor(),
+                transforms.Resize((1024, 1024)),
+                transforms.Normalize((0.5,), (0.5,)),
+            ]
         )
         super().__init__(
             root=data_dir, train=train, transform=self.transforms, download=download

@@ -16,7 +16,7 @@ class ExampleNet(nn.Module):
             nn.Conv2d(cv1_ch, cv2_ch, 4, 2, 1),
             nn.ReLU(),
             nn.Flatten(),
-            nn.Linear(7 * 7 * cv2_ch, output_size),
+            nn.Linear(256 * 256 * cv2_ch, output_size),
         )
 
     def forward(self, x):

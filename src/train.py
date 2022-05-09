@@ -24,11 +24,13 @@ def train(config: DictConfig, local_rank: int) -> None:
         utils.set_seed(config.rand_seed)
 
     # Initiate model
-    if config.get("checkpoint_file"):
+    if config.get("checkpoint_file") and os.path.isfile(config.checkpoint_file):
+        LOG.info("Load a trained model.")
         model, criterion, optimizer = load_model(
             config.checkpoint_file, config.model, local_rank
         )
     else:
+        LOG.info("There is no trained model, Initiate a new model.")
         model, criterion, optimizer = init_model(config.model, local_rank)
 
     # Initiate dataloaders
@@ -87,10 +89,9 @@ def load_model(
     # model
     model, criterion, optimizer = init_model(config, local_rank)
 
-    if os.path.isfile(checkpoint_file):
-        model.load_state_dict(
-            torch.load(checkpoint_file, map_location=f"cuda:{local_rank}")
-        )
+    model.load_state_dict(
+        torch.load(checkpoint_file, map_location=f"cuda:{local_rank}")
+    )
 
     return model, criterion, optimizer
 
@@ -98,7 +99,7 @@ def load_model(
 def init_model(config: DictConfig, local_rank: int) -> Tuple[Any, Any, Any]:
     # model
     model = hydra.utils.instantiate(config.architecture).to(local_rank)
-    model = DDP(model, device_ids=[local_rank], find_unused_parameters=True)
+    model = DDP(model, device_ids=[local_rank], find_unused_parameters=False)
 
     # criterion
     criterion = torch.nn.CrossEntropyLoss()
