@@ -40,7 +40,7 @@ Please set the develop environment python 3.8 or later version and install all d
 pip install -r requirements.txt
 ```
 
-This proeject use multi-gpu by using elastic launch ([torchrun](https://pytorch.org/docs/stable/elastic/run.html)), if not familiar to Torchrun, please check this [documenation](https://pytorch.org/docs/stable/distributed.elastic.html).
+This project use multi-gpu by using elastic launch ([torchrun](https://pytorch.org/docs/stable/elastic/run.html)), if not familiar to Torchrun, please check this [documenation](https://pytorch.org/docs/stable/distributed.elastic.html).
 
 ```bash
 torchrun --nproc_per_node <num_gpu> run.py
