@@ -33,6 +33,19 @@ Project-Name/
 └── run.py # you can train the model by run this code
 ```
 
+## How to run
+Please set the develop environment python 3.8 or later version and install all dependencies.
+
+```bash
+pip install -r requirements.txt
+```
+
+This proeject use multi-gpu by using elastic launch ([torchrun](https://pytorch.org/docs/stable/elastic/run.html)), if not familiar to Torchrun, please check this [documenation](https://pytorch.org/docs/stable/distributed.elastic.html).
+
+```bash
+torchrun --nproc_per_node <num_gpu> run.py
+```
+
 ## Acknowledgement
 This project-template is inspired by the project [Pytorch-Lightning-Template](https://github.com/ashleve/lightning-hydra-template) and [Pytorch-elastic-examples](https://github.com/pytorch/elastic/tree/master/examples).
 
