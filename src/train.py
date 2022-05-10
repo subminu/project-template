@@ -24,11 +24,13 @@ def train(config: DictConfig, local_rank: int) -> None:
         utils.set_seed(config.rand_seed)
 
     # Initiate model
-    if config.get("checkpoint_file") and os.path.isfile(config.checkpoint_file):
-        LOG.info("Load a trained model.")
-        model, criterion, optimizer = load_model(
-            config.checkpoint_file, config.model, local_rank
-        )
+    if config.get("checkpoint_file"):
+        LOG.info(f"Loading from .. {config.checkpoint_file}")
+        if os.path.isfile(config.checkpoint_file):
+            model, criterion, optimizer = load_model(
+                config.checkpoint_file, config.model, local_rank
+            )
+            LOG.info("Load a trained model.")
     else:
         LOG.info("There is no trained model, Initiate a new model.")
         model, criterion, optimizer = init_model(config.model, local_rank)
