@@ -9,6 +9,7 @@ defaults:
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
+# root conf
 work_dir: ${hydra:runtime.cwd}
 data_dir: ${work_dir}/data/
 
