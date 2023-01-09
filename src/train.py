@@ -11,6 +11,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm
+from tqdm.contrib.logging import logging_redirect_tqdm
 
 from src import utils
 
@@ -42,32 +43,32 @@ def train(config: DictConfig, local_rank: int) -> None:
 
     dist.barrier()
     LOG.info("All ranks are ready to train.")
-
-    for epoch in range(config.max_epochs):
-        train_loader.batch_sampler.sampler.set_epoch(epoch)
-        for batch in tqdm(train_loader):
-            image, label = get_batch(batch, local_rank)
-            # Compute output
-            with autocast():
-                outputs = model(image)
-                loss = criterion(outputs, label)
-
-            # Compute gradient & optimizer step
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-
-        model.eval()
-        with torch.no_grad():
-            for data in tqdm(valid_loader):
-                image, label = get_batch(data, local_rank)
-
+    with logging_redirect_tqdm(): # logging with tqdm.write
+        for epoch in range(config.max_epochs):
+            train_loader.batch_sampler.sampler.set_epoch(epoch)
+            for batch in tqdm(train_loader):
+                image, label = get_batch(batch, local_rank)
                 # Compute output
-                outputs = model(image)
-                loss = criterion(outputs, label)
+                with autocast():
+                    outputs = model(image)
+                    loss = criterion(outputs, label)
 
-        gc.collect()
-        torch.cuda.empty_cache()
+                # Compute gradient & optimizer step
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+
+            model.eval()
+            with torch.no_grad():
+                for data in tqdm(valid_loader):
+                    image, label = get_batch(data, local_rank)
+
+                    # Compute output
+                    outputs = model(image)
+                    loss = criterion(outputs, label)
+
+            gc.collect()
+            torch.cuda.empty_cache()
 
     if writer:
         writer.close()
