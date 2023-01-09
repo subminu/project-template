@@ -1,12 +1,12 @@
 import gc
 import os
-from typing import Tuple, Any
+from typing import Any, Tuple
 
 import hydra
 import torch
 import torch.distributed as dist
 from omegaconf import DictConfig
-from torch.cuda.amp import GradScaler, autocast
+from torch.cuda.amp import autocast
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
