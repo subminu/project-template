@@ -9,6 +9,7 @@ import torch
 import torch.distributed as dist
 from omegaconf import DictConfig
 
+
 # --------- decorator --------- #
 def rank_zero_only(func: Callable[[Any], Any]) -> Callable[[Any], Any]:
     def nested_func(*args, **kwargs) -> None:
