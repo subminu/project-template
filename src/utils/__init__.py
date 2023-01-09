@@ -32,6 +32,23 @@ def set_dist_func(func: Callable[[DictConfig, int], None]):
 
     return nested_func
 
+class SetDistibutedFunc(object):
+    def __init__(self, error_logger):
+        self.error_logger = error_logger
+    
+    def __call__(self, func: Callable[[DictConfig, int], None]):
+        def _nested_func(*args, **kwarg) -> None:
+            # Initicate the multi process group
+            dist.init_process_group(backend="nccl", init_method="env://")
+            local_rank = int(os.environ["LOCAL_RANK"])
+            torch.cuda.set_device(local_rank)
+            try:  # If encounter some error, safely destroy the process group
+                func(*args, local_rank, **kwarg)
+            except Exception:
+                self.error_logger.error(f"Some errors occurred. Please check the error the following log.\n{traceback.format_exc()}")
+            finally:
+                dist.destroy_process_group()
+        return _nested_func
 
 # --------- decorator --------- #
 
