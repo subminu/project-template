@@ -1,6 +1,5 @@
 defaults:
   - _self_
-  - log_dir: default
   - logger: Tensorboard
   - model: ExamleNet
   - dataset: MNIST
@@ -9,9 +8,23 @@ defaults:
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
+# hydra override conf
+hydra:
+  job:
+    # this config set os.getcwd() as "logs/${now:%Y-%m-%d}/${now:%H-%M-%S}" 
+    # this config is need to save model param at that path.
+    chdir: True 
+  run:
+    # this config set all logs to save at "logs/${now:%Y-%m-%d}/${now:%H-%M-%S}" 
+    dir: logs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: logs/experiments/multiruns/${hydra.job.name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
+
+
 # root conf
 work_dir: ${hydra:runtime.cwd}
-data_dir: ${work_dir}/data/
+data_dir: ${work_dir}/data/ 
 
 checkpoint_file: null
 
