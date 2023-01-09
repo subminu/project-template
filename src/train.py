@@ -18,7 +18,7 @@ from src import utils
 LOG = utils.get_logger(__name__)
 
 
-@utils.set_dist_func
+@utils.SetDistibutedFunc(error_logger=LOG)
 def train(config: DictConfig, local_rank: int) -> None:
     # Set seed for reproduction
     if config.get("rand_seed"):
