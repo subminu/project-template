@@ -2,10 +2,10 @@
 This project template is for deep-learning researchers who want to use multi-gpu with pytorch Distributed Data Parallel(DDP).
 
 ## Pre-requsites
-This repository ensure that works in python 3.8 or later installed all `requirements.txt` dependencies. Additionally, this project-template uses configuration manager framework, [Hydra](https://hydra.cc/). If you are not familier with Hydra, please check this [Hydra tutorial docs](https://hydra.cc/docs/intro/).
+You can use this template by installing dependencies via [Anaconda](https://www.anaconda.com/) with `requirements.yaml`. Additionally, this project-template uses configuration manager framework, [Hydra](https://hydra.cc/). If you are not familier with Hydra, please check this [Hydra tutorial docs](https://hydra.cc/docs/intro/).
 
 ```bash
-pip install -r requirements.txt
+conda env create --file requirements.yaml
 ```
 
 ## Folder tree
